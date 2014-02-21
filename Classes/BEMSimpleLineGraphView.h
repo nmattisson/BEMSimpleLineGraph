@@ -172,7 +172,11 @@
 /// Color of the label's text displayed on the X-Axis.
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
 
+/// The gesture recognizer picking up the pan in the graph view
+@property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
 
+/// View for picking up pan gesture
+@property (strong, nonatomic) UIView *panView;
 
 @end
 
