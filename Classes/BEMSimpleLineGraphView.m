@@ -144,19 +144,31 @@
         self.verticalLine.alpha = 0;
         [self addSubview:self.verticalLine];
         
-        UIView *panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
-        panView.backgroundColor = [UIColor clearColor];
-        [self.viewForBaselineLayout addSubview:panView];
+        self.panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
+        self.panView.backgroundColor = [UIColor clearColor];
+        [self.viewForBaselineLayout addSubview:self.panView];
         
-        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        panGesture.delegate = self;
-        [panGesture setMaximumNumberOfTouches:1];
-        [panView addGestureRecognizer:panGesture];
+        self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        self.panGesture.delegate = self;
+        [self.panGesture setMaximumNumberOfTouches:1];
+        [self.panView addGestureRecognizer:self.panGesture];
     }
     
     // Let the delegate know that the graph finished layout updates
     if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
         [self.delegate lineGraphDidFinishLoading:self];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isEqual:self.panGesture]) {
+        if (gestureRecognizer.numberOfTouches > 0) {
+            CGPoint translation = [self.panGesture velocityInView:self.panView];
+            return fabs(translation.y) < fabs(translation.x);
+        } else {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (void)didAddSubview:(UIView *)subview {
