@@ -176,7 +176,7 @@
 @property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
 
 /// View for picking up pan gesture
-@property (strong, nonatomic) UIView *panView;
+@property (strong, nonatomic, readonly) UIView *panView;
 
 @end
 

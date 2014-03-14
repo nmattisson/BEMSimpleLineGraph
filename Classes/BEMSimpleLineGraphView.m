@@ -39,6 +39,9 @@
 /// The animation delegate for lines and dots
 @property (strong, nonatomic) BEMAnimations *animationDelegate;
 
+/// View for picking up pan gesture
+@property (strong, nonatomic, readwrite) UIView *panView;
+
 /// Find which dot is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
 
